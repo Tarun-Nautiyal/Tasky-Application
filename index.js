@@ -16,7 +16,7 @@ const taskModal = document.querySelector(".task__modal__body");
 // header starting from left so we wrote flex and justify content end
 // how write js content within html ? -> Just use ${}
 // on my UI is if the task description exceeds 3 lines just trim it we dont wont more than
-const htmlTaskContent = ({ id, title, decription, type, url}) => ` 
+const htmlTaskContent = ({ id, title, description, type, url}) => ` 
   <div class = 'col-md-6 col-lg-4 mt-3' id=${id}> 
     <div class ='card shadow p-3 task__card'>
     
@@ -34,7 +34,7 @@ const htmlTaskContent = ({ id, title, decription, type, url}) => `
           `<img width ='100%' src =${url} alt = 'Card Image' class='card-img-top md-3 rounded-lg'>`
         }
         <h4 class ='card-title task__card__title'>${title}</h4>
-        <p class = 'description trim-3-lines text-muted'>${decription}</p>
+        <p class = 'description trim-3-lines text-muted'>${description}</p>
         <div class ='tags-text-white d-flex flex-wrap'>
           <span class ='badge bg-primary m-1'>${type}</span>
         </div>
@@ -61,10 +61,44 @@ const htmlModalContent =({id,title,description,url})=>{
     <h2 class ='my-3'>${title}<h2>
     <p class='text-muted'>${description}</p>
   </div>
-  
-  
-  
-  
-  
   `;
 }
+// Here we convert JSON to string for local storage
+const updateLocalStorage = () => {
+  localStorage.setItem(
+    "tasky",
+    JSON.stringify({
+      tasks: state.taskLists,
+    })
+  );
+};
+ 
+
+// Load initial data 
+// Here we convert string to JSON for rendering cards on the screen
+const LoadInitialData = ()=>{
+  const localStorageCopy = JSON.parse(localStorage.taks);
+  if(localStorageCopy) state.taskLists = localStorageCopy.tasks;
+  state.taskLists.map((cardDate)=>{
+    taskcontents.insertAdjacentHTML("beforeend",htmlModalContent(cardDate))
+  })
+
+
+  
+}
+
+const handleSubmit = (event) => {
+  const id =`${Date.now()}`;
+  const input = {
+    url: document.getElementById("imageUrl").value,
+    title: document.getElementById("taskTitle").value,
+    type: document.getElementById("tags").value,
+    description: document.getElementById("taskDescription").value,
+  };
+  taskcontents.insertAdjacentHTML(
+    "beforeend",
+    htmlTaskContent({...input,id})
+  );
+state.taskLists.push({...input,id});
+updateLocalStorage();
+};
