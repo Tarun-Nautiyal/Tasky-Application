@@ -22,3 +22,19 @@ A simple and efficient task management application that helps users **add, edit,
 ---
 
 ## 📂 Project Structure
+Tasky/
+│── index.html
+│── style.css
+│── script.js
+│── /assets
+│── /server (if backend exists)
+│── README.md
+
+
+---
+
+## ⚡ Installation & Setup
+1. Clone the repository  
+   ```bash
+   git clone https://github.com/your-username/tasky.git
+   cd tasky
